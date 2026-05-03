@@ -57,10 +57,13 @@ export const dict = {
       title_1: "Proyectos que",
       title_em: "rinden",
       view: "Ver proyecto",
+      preview: "Vista previa",
+      open_external: "Abrir en una nueva pestaña",
+      loading: "Cargando preview…",
       items: [
         {
-          title: "CRM Inteligente Automatizado",
-          desc: "Sistema de IA end-to-end que califica leads, redacta seguimientos y predice resultados con 94% de precisión.",
+          title: "Nexopharma — IA para droguerías",
+          desc: "Plataforma con IA para droguerías colombianas: automatiza recepciones técnicas, lectura de facturas desde correo, consultas en tiempo real al INVIMA con datos 100% verídicos, retiros del mercado, monitoreo ambiental y todo lo que exige la regulación. Chatbot integrado con Claude para guía normativa.",
         },
         {
           title: "Plataforma SaaS de Analítica",
@@ -277,10 +280,13 @@ export const dict = {
       title_1: "Projects that",
       title_em: "perform",
       view: "View project",
+      preview: "Live preview",
+      open_external: "Open in new tab",
+      loading: "Loading preview…",
       items: [
         {
-          title: "Intelligent CRM Automation",
-          desc: "End-to-end AI system that qualifies leads, drafts follow-ups, and predicts deal outcomes with 94% accuracy.",
+          title: "Nexopharma — AI for pharmacies",
+          desc: "AI platform for Colombian pharmacies: automates technical receptions, parses supplier invoices from email, runs real-time INVIMA lookups with 100% verified data, handles market withdrawals, environmental monitoring and all regulatory requirements. Built-in Claude chatbot for compliance guidance.",
         },
         {
           title: "Analytics SaaS Platform",

@@ -1,30 +1,77 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLang } from "./LanguageProvider";
+import PreviewModal from "./PreviewModal";
 
 const VISUALS: { cls: string; svg: ReactNode }[] = [
   {
     cls: "pv-1",
     svg: (
-      <svg width="160" height="100" viewBox="0 0 160 100" fill="none">
-        <rect x="10" y="10" width="60" height="8" rx="1" fill="rgba(255,255,255,0.12)" />
-        <rect x="10" y="26" width="140" height="1" fill="rgba(255,255,255,0.06)" />
-        <rect x="10" y="34" width="80" height="6" rx="1" fill="rgba(255,255,255,0.08)" />
-        <rect x="10" y="48" width="120" height="6" rx="1" fill="rgba(255,255,255,0.06)" />
-        <rect x="10" y="60" width="100" height="6" rx="1" fill="rgba(255,255,255,0.04)" />
+      <svg width="220" height="130" viewBox="0 0 220 130" fill="none">
+        {/* Browser chrome */}
         <rect
-          x="100"
-          y="30"
-          width="50"
-          height="60"
-          rx="2"
-          stroke="rgba(255,255,255,0.15)"
+          x="14"
+          y="14"
+          width="192"
+          height="102"
+          rx="6"
+          stroke="rgba(255,255,255,0.18)"
           strokeWidth="1"
-          fill="rgba(255,255,255,0.03)"
+          fill="rgba(255,255,255,0.025)"
         />
-        <circle cx="125" cy="55" r="12" stroke="rgba(255,255,255,0.2)" strokeWidth="1" fill="none" />
-        <path d="M120 55 L123 58 L130 51" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" />
+        <rect x="14" y="14" width="192" height="14" rx="6" fill="rgba(255,255,255,0.04)" />
+        <circle cx="22" cy="21" r="1.6" fill="rgba(255,255,255,0.35)" />
+        <circle cx="28" cy="21" r="1.6" fill="rgba(255,255,255,0.22)" />
+        <circle cx="34" cy="21" r="1.6" fill="rgba(255,255,255,0.18)" />
+        <rect x="44" y="18" width="120" height="6" rx="2" fill="rgba(255,255,255,0.07)" />
+
+        {/* Sidebar */}
+        <rect x="22" y="36" width="44" height="72" rx="3" fill="rgba(255,255,255,0.04)" />
+        <rect x="28" y="44" width="32" height="4" rx="1" fill="rgba(255,255,255,0.18)" />
+        <rect x="28" y="54" width="26" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
+        <rect x="28" y="62" width="30" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
+        <rect x="28" y="70" width="22" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
+        <rect x="28" y="78" width="28" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
+
+        {/* Stat tiles */}
+        <rect x="74" y="36" width="60" height="30" rx="3" fill="rgba(255,255,255,0.05)" />
+        <rect x="80" y="42" width="22" height="3" rx="1" fill="rgba(255,255,255,0.18)" />
+        <rect x="80" y="50" width="40" height="8" rx="1" fill="rgba(255,255,255,0.32)" />
+
+        <rect x="140" y="36" width="60" height="30" rx="3" fill="rgba(255,255,255,0.05)" />
+        <rect x="146" y="42" width="22" height="3" rx="1" fill="rgba(255,255,255,0.18)" />
+        <rect x="146" y="50" width="34" height="8" rx="1" fill="rgba(255,255,255,0.24)" />
+
+        {/* Pill / capsule motif */}
+        <g transform="translate(74,76)">
+          <rect
+            x="0"
+            y="0"
+            width="56"
+            height="20"
+            rx="10"
+            stroke="rgba(255,255,255,0.35)"
+            strokeWidth="1.2"
+            fill="rgba(255,255,255,0.04)"
+          />
+          <rect x="0" y="0" width="28" height="20" rx="10" fill="rgba(255,255,255,0.18)" />
+          <line
+            x1="28"
+            y1="2"
+            x2="28"
+            y2="18"
+            stroke="rgba(255,255,255,0.35)"
+            strokeWidth="1"
+          />
+        </g>
+
+        {/* AI sparkle */}
+        <g transform="translate(160,82)" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" fill="none">
+          <path d="M14 2 L14 12 M14 16 L14 26 M2 14 L12 14 M16 14 L26 14" />
+          <path d="M5 5 L9 9 M19 19 L23 23 M5 23 L9 19 M19 9 L23 5" opacity="0.45" />
+          <circle cx="14" cy="14" r="3" fill="rgba(255,255,255,0.7)" stroke="none" />
+        </g>
       </svg>
     ),
   },
@@ -126,11 +173,19 @@ const VISUALS: { cls: string; svg: ReactNode }[] = [
 ];
 
 const TAGS = [
-  ["AI", "Python", "FastAPI", "PostgreSQL"],
+  ["IA", "Next.js", "OCR", "Claude AI", "INVIMA"],
   ["SaaS", "React", "Node.js"],
   ["Integrations", "REST", "GraphQL"],
   ["ML", "TensorFlow", "AWS"],
   ["Licensing", "Stripe", "Go"],
+];
+
+const URLS: (string | null)[] = [
+  "https://solumed.vercel.app/info",
+  null,
+  null,
+  null,
+  null,
 ];
 
 const DELAYS: Array<1 | 2 | 3 | 4 | 5 | 6> = [1, 2, 3, 2, 3];
@@ -138,6 +193,9 @@ const DELAYS: Array<1 | 2 | 3 | 4 | 5 | 6> = [1, 2, 3, 2, 3];
 export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
   const { t } = useLang();
+  const [preview, setPreview] = useState<{ url: string; title: string } | null>(
+    null
+  );
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -240,36 +298,78 @@ export default function Portfolio() {
         </h2>
       </div>
       <div className="portfolio-grid">
-        {t.portfolio.items.map((p, i) => (
-          <div
-            key={p.title}
-            className={`project-card reveal reveal-delay-${DELAYS[i]}${
-              i === 0 ? " featured" : ""
-            }`}
-            data-tilt
-          >
-            <div className="project-img">
-              <div className={`project-visual ${VISUALS[i].cls}`}>
-                {VISUALS[i].svg}
+        {t.portfolio.items.map((p, i) => {
+          const url = URLS[i];
+          const handleClick = (e: React.MouseEvent) => {
+            if (!url) return;
+            e.preventDefault();
+            setPreview({ url, title: p.title });
+          };
+          return (
+            <div
+              key={p.title}
+              className={`project-card reveal reveal-delay-${DELAYS[i]}${
+                i === 0 ? " featured" : ""
+              }${url ? " interactive" : ""}`}
+              data-tilt
+              onClick={url ? handleClick : undefined}
+              role={url ? "button" : undefined}
+              tabIndex={url ? 0 : undefined}
+              onKeyDown={
+                url
+                  ? (e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setPreview({ url, title: p.title });
+                      }
+                    }
+                  : undefined
+              }
+            >
+              {url && (
+                <span className="project-live" aria-label="Live">
+                  <span className="project-live-dot" />
+                  Live
+                </span>
+              )}
+              <div className="project-img">
+                <div className={`project-visual ${VISUALS[i].cls}`}>
+                  {VISUALS[i].svg}
+                </div>
               </div>
-            </div>
-            <div className="project-info">
-              <div className="project-tags">
-                {TAGS[i].map((tag) => (
-                  <span key={tag} className="project-tag">
-                    {tag}
+              <div className="project-info">
+                <div className="project-tags">
+                  {TAGS[i].map((tag) => (
+                    <span key={tag} className="project-tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 className="project-title">{p.title}</h3>
+                <p className="project-desc">{p.desc}</p>
+                {url ? (
+                  <button
+                    type="button"
+                    className="project-link"
+                    onClick={handleClick}
+                  >
+                    {t.portfolio.preview}
+                  </button>
+                ) : (
+                  <span className="project-link project-link-static">
+                    {t.portfolio.view}
                   </span>
-                ))}
+                )}
               </div>
-              <h3 className="project-title">{p.title}</h3>
-              <p className="project-desc">{p.desc}</p>
-              <a href="#" className="project-link">
-                {t.portfolio.view}
-              </a>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+      <PreviewModal
+        url={preview?.url ?? null}
+        title={preview?.title ?? ""}
+        onClose={() => setPreview(null)}
+      />
     </section>
   );
 }
