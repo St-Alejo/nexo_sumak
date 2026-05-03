@@ -66,8 +66,8 @@ export const dict = {
           desc: "Plataforma con IA para droguerías colombianas: automatiza recepciones técnicas, lectura de facturas desde correo, consultas en tiempo real al INVIMA con datos 100% verídicos, retiros del mercado, monitoreo ambiental y todo lo que exige la regulación. Chatbot integrado con Claude para guía normativa.",
         },
         {
-          title: "Plataforma SaaS de Analítica",
-          desc: "Plataforma de inteligencia de datos en tiempo real para 200+ clientes empresariales, con consultas en sub-segundos.",
+          title: "Agrodat — Inteligencia agro-climática",
+          desc: "Plataforma de predicciones en tiempo real para el agro colombiano: integra datos de DANE, IDEAM, UPRA y SIPSA cubriendo 1.122 municipios y 87+ cultivos. Dashboards interactivos de Power BI para segmentar por zona, modelos XGBoost de rendimiento (R²=0.81) y chatbot IA entrenado con 9 bases de datos y ~20 millones de registros históricos de clima, insumos, precios e impuestos.",
         },
         {
           title: "ERP API Bridge",
@@ -289,8 +289,8 @@ export const dict = {
           desc: "AI platform for Colombian pharmacies: automates technical receptions, parses supplier invoices from email, runs real-time INVIMA lookups with 100% verified data, handles market withdrawals, environmental monitoring and all regulatory requirements. Built-in Claude chatbot for compliance guidance.",
         },
         {
-          title: "Analytics SaaS Platform",
-          desc: "Real-time data intelligence platform serving 200+ enterprise clients with sub-second query performance.",
+          title: "Agrodat — Agro-climate intelligence",
+          desc: "Real-time prediction platform for Colombian agriculture: integrates DANE, IDEAM, UPRA and SIPSA data covering 1,122 municipalities and 87+ crops. Interactive Power BI dashboards segmented by zone, XGBoost yield models (R²=0.81) and an AI chatbot trained on 9 databases with ~20M historical records of climate, inputs, prices and taxes.",
         },
         {
           title: "ERP API Bridge",

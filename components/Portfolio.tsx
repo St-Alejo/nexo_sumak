@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLang } from "./LanguageProvider";
 import PreviewModal from "./PreviewModal";
+import LivePreviewThumb from "./LivePreviewThumb";
 
-const VISUALS: { cls: string; svg: ReactNode }[] = [
+const FALLBACK_VISUALS: { cls: string; svg: ReactNode }[] = [
   {
     cls: "pv-1",
     svg: (
       <svg width="220" height="130" viewBox="0 0 220 130" fill="none">
-        {/* Browser chrome */}
         <rect
           x="14"
           y="14"
@@ -25,76 +25,10 @@ const VISUALS: { cls: string; svg: ReactNode }[] = [
         <circle cx="28" cy="21" r="1.6" fill="rgba(255,255,255,0.22)" />
         <circle cx="34" cy="21" r="1.6" fill="rgba(255,255,255,0.18)" />
         <rect x="44" y="18" width="120" height="6" rx="2" fill="rgba(255,255,255,0.07)" />
-
-        {/* Sidebar */}
-        <rect x="22" y="36" width="44" height="72" rx="3" fill="rgba(255,255,255,0.04)" />
-        <rect x="28" y="44" width="32" height="4" rx="1" fill="rgba(255,255,255,0.18)" />
-        <rect x="28" y="54" width="26" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
-        <rect x="28" y="62" width="30" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
-        <rect x="28" y="70" width="22" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
-        <rect x="28" y="78" width="28" height="3" rx="1" fill="rgba(255,255,255,0.08)" />
-
-        {/* Stat tiles */}
-        <rect x="74" y="36" width="60" height="30" rx="3" fill="rgba(255,255,255,0.05)" />
-        <rect x="80" y="42" width="22" height="3" rx="1" fill="rgba(255,255,255,0.18)" />
-        <rect x="80" y="50" width="40" height="8" rx="1" fill="rgba(255,255,255,0.32)" />
-
-        <rect x="140" y="36" width="60" height="30" rx="3" fill="rgba(255,255,255,0.05)" />
-        <rect x="146" y="42" width="22" height="3" rx="1" fill="rgba(255,255,255,0.18)" />
-        <rect x="146" y="50" width="34" height="8" rx="1" fill="rgba(255,255,255,0.24)" />
-
-        {/* Pill / capsule motif */}
-        <g transform="translate(74,76)">
-          <rect
-            x="0"
-            y="0"
-            width="56"
-            height="20"
-            rx="10"
-            stroke="rgba(255,255,255,0.35)"
-            strokeWidth="1.2"
-            fill="rgba(255,255,255,0.04)"
-          />
-          <rect x="0" y="0" width="28" height="20" rx="10" fill="rgba(255,255,255,0.18)" />
-          <line
-            x1="28"
-            y1="2"
-            x2="28"
-            y2="18"
-            stroke="rgba(255,255,255,0.35)"
-            strokeWidth="1"
-          />
-        </g>
-
-        {/* AI sparkle */}
-        <g transform="translate(160,82)" stroke="rgba(255,255,255,0.55)" strokeWidth="1.2" fill="none">
-          <path d="M14 2 L14 12 M14 16 L14 26 M2 14 L12 14 M16 14 L26 14" />
-          <path d="M5 5 L9 9 M19 19 L23 23 M5 23 L9 19 M19 9 L23 5" opacity="0.45" />
-          <circle cx="14" cy="14" r="3" fill="rgba(255,255,255,0.7)" stroke="none" />
-        </g>
       </svg>
     ),
   },
-  {
-    cls: "pv-2",
-    svg: (
-      <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" />
-        <circle cx="50" cy="50" r="18" stroke="rgba(255,255,255,0.1)" strokeWidth="1" fill="none" />
-        <circle cx="50" cy="50" r="6" fill="rgba(255,255,255,0.3)" />
-        <path
-          d="M50 20 L50 10M50 90 L50 80M20 50 L10 50M90 50 L80 50"
-          stroke="rgba(255,255,255,0.15)"
-          strokeWidth="1"
-        />
-        <path
-          d="M30 30 L22 22M70 70 L78 78M70 30 L78 22M30 70 L22 78"
-          stroke="rgba(255,255,255,0.08)"
-          strokeWidth="1"
-        />
-      </svg>
-    ),
-  },
+  { cls: "pv-2", svg: null },
   {
     cls: "pv-3",
     svg: (
@@ -174,7 +108,7 @@ const VISUALS: { cls: string; svg: ReactNode }[] = [
 
 const TAGS = [
   ["IA", "Next.js", "OCR", "Claude AI", "INVIMA"],
-  ["SaaS", "React", "Node.js"],
+  ["IA", "Power BI", "XGBoost", "DANE", "IDEAM"],
   ["Integrations", "REST", "GraphQL"],
   ["ML", "TensorFlow", "AWS"],
   ["Licensing", "Stripe", "Go"],
@@ -182,7 +116,7 @@ const TAGS = [
 
 const URLS: (string | null)[] = [
   "https://solumed.vercel.app/info",
-  null,
+  "https://agro-h2.vercel.app/",
   null,
   null,
   null,
@@ -230,9 +164,9 @@ export default function Portfolio() {
           if (!rect) return;
           const dx = pendingX / (rect.width / 2);
           const dy = pendingY / (rect.height / 2);
-          card.style.transform = `perspective(800px) rotateY(${dx * 8}deg) rotateX(${
-            -dy * 6
-          }deg) translateZ(8px)`;
+          card.style.transform = `perspective(800px) rotateY(${dx * 6}deg) rotateX(${
+            -dy * 4
+          }deg) translateZ(6px)`;
         };
 
         const onMove = (e: MouseEvent) => {
@@ -300,7 +234,7 @@ export default function Portfolio() {
       <div className="portfolio-grid">
         {t.portfolio.items.map((p, i) => {
           const url = URLS[i];
-          const handleClick = (e: React.MouseEvent) => {
+          const handleOpen = (e: React.MouseEvent | React.KeyboardEvent) => {
             if (!url) return;
             e.preventDefault();
             setPreview({ url, title: p.title });
@@ -312,16 +246,13 @@ export default function Portfolio() {
                 i === 0 ? " featured" : ""
               }${url ? " interactive" : ""}`}
               data-tilt
-              onClick={url ? handleClick : undefined}
+              onClick={url ? handleOpen : undefined}
               role={url ? "button" : undefined}
               tabIndex={url ? 0 : undefined}
               onKeyDown={
                 url
                   ? (e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setPreview({ url, title: p.title });
-                      }
+                      if (e.key === "Enter" || e.key === " ") handleOpen(e);
                     }
                   : undefined
               }
@@ -333,9 +264,19 @@ export default function Portfolio() {
                 </span>
               )}
               <div className="project-img">
-                <div className={`project-visual ${VISUALS[i].cls}`}>
-                  {VISUALS[i].svg}
-                </div>
+                {url ? (
+                  <LivePreviewThumb url={url} title={p.title} />
+                ) : (
+                  <div className={`project-visual ${FALLBACK_VISUALS[i].cls}`}>
+                    {FALLBACK_VISUALS[i].svg}
+                  </div>
+                )}
+                {url && (
+                  <span className="project-hover-cta">
+                    <span>{t.portfolio.preview}</span>
+                    <span aria-hidden>↗</span>
+                  </span>
+                )}
               </div>
               <div className="project-info">
                 <div className="project-tags">
@@ -351,7 +292,7 @@ export default function Portfolio() {
                   <button
                     type="button"
                     className="project-link"
-                    onClick={handleClick}
+                    onClick={handleOpen}
                   >
                     {t.portfolio.preview}
                   </button>
