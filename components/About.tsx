@@ -1,23 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-const STATS = [
-  { num: "40+", label: "Projects delivered" },
-  { num: "98%", label: "Client satisfaction" },
-  { num: "12", label: "Expert engineers" },
-  { num: "5+", label: "Years in market" },
-];
-
-const VALUES = [
-  "Precision engineering over rapid prototyping",
-  "Long-term partnerships, not one-off transactions",
-  "AI-native architecture from day one",
-  "Transparent process, measurable outcomes",
-];
+import { useLang } from "./LanguageProvider";
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLang();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -67,43 +55,37 @@ export default function About() {
       revealObs.disconnect();
       counterObs.disconnect();
     };
-  }, []);
+  }, [t]);
 
   return (
     <section id="about" ref={sectionRef}>
       <div className="reveal">
-        <div className="section-label">Who we are</div>
+        <div className="section-label">{t.about.label}</div>
       </div>
       <div className="reveal reveal-delay-1">
         <h2 className="section-title">
-          Precision over <em>quantity</em>
+          {t.about.title_1} <em>{t.about.title_em}</em>
         </h2>
       </div>
       <div className="about-layout">
         <div className="about-text">
           <p className="reveal reveal-delay-1">
-            <strong>NEXOSUMAK is a boutique software and AI studio</strong>{" "}
-            founded on the belief that exceptional technology demands exceptional
-            craft. We don&apos;t ship fast and break things — we architect, test,
-            and deliver with rigor.
+            {t.about.p1_pre}
+            <strong>{t.about.p1_strong}</strong>
+            {t.about.p1_post}
           </p>
           <p className="reveal reveal-delay-2">
-            Our team operates at the intersection of{" "}
-            <strong>
-              intelligent automation, systems design, and product thinking
-            </strong>{" "}
-            — bringing together engineers, AI researchers, and product
-            strategists to solve problems that matter.
+            {t.about.p2_pre}
+            <strong>{t.about.p2_strong}</strong>
+            {t.about.p2_post}
           </p>
           <p className="reveal reveal-delay-3">
-            We work with startups scaling to series B and enterprise teams
-            modernizing legacy infrastructure. The common thread: a commitment
-            to{" "}
-            <strong>building things that perform in the real world</strong>, not
-            just in demos.
+            {t.about.p3_pre}
+            <strong>{t.about.p3_strong}</strong>
+            {t.about.p3_post}
           </p>
           <div className="about-values reveal reveal-delay-4">
-            {VALUES.map((v) => (
+            {t.about.values.map((v) => (
               <div className="about-value" key={v}>
                 <div className="value-dot" />
                 {v}
@@ -112,7 +94,7 @@ export default function About() {
           </div>
         </div>
         <div className="about-stats reveal reveal-delay-2">
-          {STATS.map((s) => (
+          {t.about.stats.map((s) => (
             <div className="about-stat" key={s.label}>
               <div className="stat-num" data-target={s.num}>
                 {s.num}

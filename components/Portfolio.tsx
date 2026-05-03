@@ -1,26 +1,12 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { useLang } from "./LanguageProvider";
 
-type Project = {
-  visualClass: string;
-  visual: ReactNode;
-  tags: string[];
-  title: string;
-  desc: string;
-  featured?: boolean;
-  delay: 1 | 2 | 3 | 4 | 5 | 6;
-};
-
-const PROJECTS: Project[] = [
+const VISUALS: { cls: string; svg: ReactNode }[] = [
   {
-    visualClass: "pv-1",
-    featured: true,
-    delay: 1,
-    tags: ["AI", "Python", "FastAPI", "PostgreSQL"],
-    title: "Intelligent CRM Automation",
-    desc: "End-to-end AI system that qualifies leads, drafts follow-ups, and predicts deal outcomes with 94% accuracy.",
-    visual: (
+    cls: "pv-1",
+    svg: (
       <svg width="160" height="100" viewBox="0 0 160 100" fill="none">
         <rect x="10" y="10" width="60" height="8" rx="1" fill="rgba(255,255,255,0.12)" />
         <rect x="10" y="26" width="140" height="1" fill="rgba(255,255,255,0.06)" />
@@ -43,12 +29,8 @@ const PROJECTS: Project[] = [
     ),
   },
   {
-    visualClass: "pv-2",
-    delay: 2,
-    tags: ["SaaS", "React", "Node.js"],
-    title: "Analytics SaaS Platform",
-    desc: "Real-time data intelligence platform serving 200+ enterprise clients with sub-second query performance.",
-    visual: (
+    cls: "pv-2",
+    svg: (
       <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
         <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.15)" strokeWidth="1" fill="none" />
         <circle cx="50" cy="50" r="18" stroke="rgba(255,255,255,0.1)" strokeWidth="1" fill="none" />
@@ -67,12 +49,8 @@ const PROJECTS: Project[] = [
     ),
   },
   {
-    visualClass: "pv-3",
-    delay: 3,
-    tags: ["Integrations", "REST", "GraphQL"],
-    title: "ERP API Bridge",
-    desc: "Unified API layer connecting SAP, Salesforce, and 12 legacy systems into a single coherent interface.",
-    visual: (
+    cls: "pv-3",
+    svg: (
       <svg width="110" height="100" viewBox="0 0 110 100" fill="none">
         <rect
           x="10"
@@ -103,12 +81,8 @@ const PROJECTS: Project[] = [
     ),
   },
   {
-    visualClass: "pv-4",
-    delay: 2,
-    tags: ["ML", "TensorFlow", "AWS"],
-    title: "Predictive Demand Engine",
-    desc: "Machine learning model forecasting inventory needs 30 days ahead, reducing overstock by 38%.",
-    visual: (
+    cls: "pv-4",
+    svg: (
       <svg width="110" height="100" viewBox="0 0 110 100" fill="none">
         <path
           d="M20 70 L20 40 L40 55 L60 25 L80 45 L100 30"
@@ -129,12 +103,8 @@ const PROJECTS: Project[] = [
     ),
   },
   {
-    visualClass: "pv-5",
-    delay: 3,
-    tags: ["Licensing", "Stripe", "Go"],
-    title: "Software Licensing Hub",
-    desc: "Modular licensing infrastructure with seat management, usage metering, and automated renewals.",
-    visual: (
+    cls: "pv-5",
+    svg: (
       <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
         <rect
           x="20"
@@ -155,27 +125,39 @@ const PROJECTS: Project[] = [
   },
 ];
 
+const TAGS = [
+  ["AI", "Python", "FastAPI", "PostgreSQL"],
+  ["SaaS", "React", "Node.js"],
+  ["Integrations", "REST", "GraphQL"],
+  ["ML", "TensorFlow", "AWS"],
+  ["Licensing", "Stripe", "Go"],
+];
+
+const DELAYS: Array<1 | 2 | 3 | 4 | 5 | 6> = [1, 2, 3, 2, 3];
+
 export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLang();
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const fineHover =
-      typeof window !== "undefined" &&
-      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const fineHover = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    ).matches;
 
     const cards = Array.from(
       section.querySelectorAll<HTMLDivElement>("[data-tilt]")
     );
 
-    const handlers: Array<{
+    type H = {
       card: HTMLDivElement;
       onMove?: (e: MouseEvent) => void;
       onLeave?: () => void;
       onEnter?: () => void;
-    }> = [];
+    };
+    const handlers: H[] = [];
 
     if (fineHover) {
       cards.forEach((card) => {
@@ -190,9 +172,9 @@ export default function Portfolio() {
           if (!rect) return;
           const dx = pendingX / (rect.width / 2);
           const dy = pendingY / (rect.height / 2);
-          card.style.transform = `perspective(800px) rotateY(${dx * 6}deg) rotateX(${
-            -dy * 4
-          }deg) translateZ(4px)`;
+          card.style.transform = `perspective(800px) rotateY(${dx * 8}deg) rotateX(${
+            -dy * 6
+          }deg) translateZ(8px)`;
         };
 
         const onMove = (e: MouseEvent) => {
@@ -250,28 +232,30 @@ export default function Portfolio() {
   return (
     <section id="portfolio" ref={sectionRef}>
       <div className="reveal">
-        <div className="section-label">Selected work</div>
+        <div className="section-label">{t.portfolio.label}</div>
       </div>
       <div className="reveal reveal-delay-1">
         <h2 className="section-title">
-          Projects that <em>perform</em>
+          {t.portfolio.title_1} <em>{t.portfolio.title_em}</em>
         </h2>
       </div>
       <div className="portfolio-grid">
-        {PROJECTS.map((p) => (
+        {t.portfolio.items.map((p, i) => (
           <div
             key={p.title}
-            className={`project-card reveal reveal-delay-${p.delay}${
-              p.featured ? " featured" : ""
+            className={`project-card reveal reveal-delay-${DELAYS[i]}${
+              i === 0 ? " featured" : ""
             }`}
             data-tilt
           >
             <div className="project-img">
-              <div className={`project-visual ${p.visualClass}`}>{p.visual}</div>
+              <div className={`project-visual ${VISUALS[i].cls}`}>
+                {VISUALS[i].svg}
+              </div>
             </div>
             <div className="project-info">
               <div className="project-tags">
-                {p.tags.map((tag) => (
+                {TAGS[i].map((tag) => (
                   <span key={tag} className="project-tag">
                     {tag}
                   </span>
@@ -280,7 +264,7 @@ export default function Portfolio() {
               <h3 className="project-title">{p.title}</h3>
               <p className="project-desc">{p.desc}</p>
               <a href="#" className="project-link">
-                View project
+                {t.portfolio.view}
               </a>
             </div>
           </div>

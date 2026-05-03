@@ -1,29 +1,47 @@
+"use client";
+
 import Reveal from "./Reveal";
+import { useLang } from "./LanguageProvider";
+import MagneticButton from "./MagneticButton";
+import { useStartProject } from "./StartProjectModal";
 
 export default function Contact() {
+  const { t } = useLang();
+  const { openModal } = useStartProject();
+
   return (
     <section id="contact">
+      <div className="contact-orbs" aria-hidden>
+        <span className="contact-orb contact-orb-1" />
+        <span className="contact-orb contact-orb-2" />
+      </div>
       <div className="contact-inner">
-        <Reveal className="contact-eyebrow">Ready to build?</Reveal>
+        <Reveal className="contact-eyebrow">{t.contact.eyebrow}</Reveal>
         <Reveal as="h2" delay={1} className="contact-title">
-          Start your
+          {t.contact.title_1}
           <br />
-          <em>next</em> project
+          <em>{t.contact.title_em}</em> {t.contact.title_2}
         </Reveal>
         <Reveal as="p" delay={2} className="contact-sub">
-          Let&apos;s discuss your goals and build something that genuinely moves
-          the needle. First consultation is always on us.
+          {t.contact.sub}
         </Reveal>
         <Reveal delay={3} className="contact-actions">
-          <a href="mailto:hello@nexosumak.com" className="btn-primary">
-            Start your project
-          </a>
-          <a href="mailto:hello@nexosumak.com" className="btn-ghost">
-            Schedule a call
-          </a>
+          <MagneticButton
+            className="btn-primary"
+            onClick={openModal}
+          >
+            {t.contact.primary}
+          </MagneticButton>
+          <MagneticButton
+            href="mailto:hello@nexosumak.com"
+            className="btn-ghost"
+            strength={0.2}
+          >
+            {t.contact.ghost}
+          </MagneticButton>
         </Reveal>
         <Reveal delay={4} className="contact-email">
-          Or reach us directly at{" "}
+          {t.contact.direct_pre}
           <a href="mailto:hello@nexosumak.com">hello@nexosumak.com</a>
         </Reveal>
       </div>

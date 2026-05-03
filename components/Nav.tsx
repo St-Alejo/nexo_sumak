@@ -1,9 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import LanguageToggle from "./LanguageToggle";
+import { useLang } from "./LanguageProvider";
+import { useStartProject } from "./StartProjectModal";
 
 export default function Nav() {
   const navRef = useRef<HTMLElement>(null);
+  const { t } = useLang();
+  const { openModal } = useStartProject();
 
   useEffect(() => {
     const nav = navRef.current;
@@ -36,21 +41,31 @@ export default function Nav() {
       </a>
       <ul className="nav-links">
         <li>
-          <a href="#services">Services</a>
+          <a href="#services">{t.nav.services}</a>
         </li>
         <li>
-          <a href="#portfolio">Work</a>
+          <a href="#portfolio">{t.nav.work}</a>
         </li>
         <li>
-          <a href="#technologies">Stack</a>
+          <a href="#technologies">{t.nav.stack}</a>
         </li>
         <li>
-          <a href="#about">About</a>
+          <a href="#about">{t.nav.about}</a>
         </li>
       </ul>
-      <a href="#contact" className="nav-cta">
-        Start a project
-      </a>
+      <div className="nav-right">
+        <LanguageToggle />
+        <button
+          type="button"
+          className="nav-cta"
+          onClick={(e) => {
+            e.preventDefault();
+            openModal();
+          }}
+        >
+          {t.nav.cta}
+        </button>
+      </div>
     </nav>
   );
 }

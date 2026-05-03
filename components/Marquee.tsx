@@ -1,16 +1,11 @@
-const ITEMS = [
-  "Custom Software Development",
-  "AI Automation",
-  "API Integrations",
-  "SaaS & Licensing",
-  "Machine Learning",
-  "Scalable Architecture",
-  "Cloud Infrastructure",
-  "Data Engineering",
-];
+"use client";
+
+import { useLang } from "./LanguageProvider";
 
 export default function Marquee() {
-  const loop = [...ITEMS, ...ITEMS];
+  const { t } = useLang();
+  const items = t.marquee;
+  const loop = [...items, ...items];
   return (
     <div className="marquee-wrapper">
       <div className="marquee-track" id="marqueeTrack">
