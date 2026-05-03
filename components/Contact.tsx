@@ -4,6 +4,7 @@ import Reveal from "./Reveal";
 import { useLang } from "./LanguageProvider";
 import MagneticButton from "./MagneticButton";
 import { useStartProject } from "./StartProjectModal";
+import { CONTACT } from "@/lib/contact";
 
 export default function Contact() {
   const { t } = useLang();
@@ -26,23 +27,32 @@ export default function Contact() {
           {t.contact.sub}
         </Reveal>
         <Reveal delay={3} className="contact-actions">
-          <MagneticButton
-            className="btn-primary"
-            onClick={openModal}
-          >
+          <MagneticButton className="btn-primary" onClick={openModal}>
             {t.contact.primary}
           </MagneticButton>
           <MagneticButton
-            href="mailto:hello@nexosumak.com"
+            href={`mailto:${CONTACT.email}`}
             className="btn-ghost"
             strength={0.2}
           >
             {t.contact.ghost}
           </MagneticButton>
         </Reveal>
-        <Reveal delay={4} className="contact-email">
-          {t.contact.direct_pre}
-          <a href="mailto:hello@nexosumak.com">hello@nexosumak.com</a>
+        <Reveal delay={4} className="contact-info">
+          <a href={`mailto:${CONTACT.email}`} className="contact-info-item">
+            <span className="contact-info-label">{t.contact.email_label}</span>
+            <span className="contact-info-value">{CONTACT.email}</span>
+          </a>
+          {CONTACT.phones.map((p) => (
+            <a
+              key={p.tel}
+              href={`tel:${p.tel}`}
+              className="contact-info-item"
+            >
+              <span className="contact-info-label">{t.contact.phone_label}</span>
+              <span className="contact-info-value">{p.label}</span>
+            </a>
+          ))}
         </Reveal>
       </div>
     </section>

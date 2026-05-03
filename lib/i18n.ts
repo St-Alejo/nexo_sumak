@@ -134,6 +134,8 @@ export const dict = {
       primary: "Iniciar tu proyecto",
       ghost: "Agendar una llamada",
       direct_pre: "O escríbenos directo a ",
+      email_label: "Correo",
+      phone_label: "Teléfono",
     },
     footer: {
       services: "Servicios",
@@ -151,6 +153,7 @@ export const dict = {
       step: "Paso",
       of: "de",
       required: "Requerido",
+      menu: "Menú",
       title: "Construyamos algo extraordinario",
       subtitle: "Cuéntanos sobre tu visión. En 60 segundos lo aterrizamos.",
       steps: {
@@ -351,6 +354,8 @@ export const dict = {
       primary: "Start your project",
       ghost: "Schedule a call",
       direct_pre: "Or reach us directly at ",
+      email_label: "Email",
+      phone_label: "Phone",
     },
     footer: {
       services: "Services",
@@ -368,6 +373,7 @@ export const dict = {
       step: "Step",
       of: "of",
       required: "Required",
+      menu: "Menu",
       title: "Let's build something extraordinary",
       subtitle: "Tell us about your vision. We'll scope it in 60 seconds.",
       steps: {

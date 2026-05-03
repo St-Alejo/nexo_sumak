@@ -182,7 +182,7 @@ function StartProjectModal() {
     );
     const body = encodeURIComponent(lines.join("\n"));
     try {
-      window.location.href = `mailto:hello@nexosumak.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:nexosumak@gmail.com?subject=${subject}&body=${body}`;
     } catch {
       // ignore
     }
